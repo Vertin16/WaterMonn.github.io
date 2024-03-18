@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>域名访问Alist上传失败</title>
+      <link href="/2024/03/18/nginx/"/>
+      <url>/2024/03/18/nginx/</url>
+      
+        <content type="html"><![CDATA[<h3 id="域名上传失败"><a href="#域名上传失败" class="headerlink" title="域名上传失败"></a>域名上传失败</h3><p>闲来无事给alist加了个域名，在使用过程中发现通过ip+端口号可以正常上传，通过域名访问却不行。<br>修改一下alist的nginx的配置文件就可以了。</p><h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>nginx配置文件默认在这个位置&#x2F;etc&#x2F;nginx&#x2F;sites-available<br>在nginx关于alist的配置文件添加上传文件大小和下载限制。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 设置最大长传大小为10000MB</span><br><span class="line">client_max_body_size 10000M;</span><br><span class="line"># 设置下载速率为1MB/s</span><br><span class="line">limit_rate 1M;</span><br></pre></td></tr></table></figure><p>如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">root@Abc:/etc/nginx/sites-available# vi a.000487.xyz</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name a.000487.xyz;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://23.95.209.236:5244;</span><br><span class="line">        proxy_set_header Host $host;</span><br><span class="line">        proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">        proxy_set_header X-Forwarded-Proto $scheme;    </span><br><span class="line">        # 添加如下</span><br><span class="line">        client_max_body_size 100M;    </span><br><span class="line">        limit_rate 10M;  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 服务器部署 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> alist </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Git之旅</title>
+      <link href="/2023/12/04/git/"/>
+      <url>/2023/12/04/git/</url>
+      
+        <content type="html"><![CDATA[<p>自己写了一个网页，想部署到github上，然后使用vercel托管，以便外界访问。</p><h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>1 在项目文件夹中打开Git Bash。<br>2 初始化Git仓库：git init<br>3 添加文件到Git：git add .<br>4（可选）更改分支名称：git branch -m &lt;新分支名&gt;<br>5 配置Git用户信息：<br>git config –global user.name “你的用户名”<br>git config –global user.email “你的邮箱”<br>6 关联远程仓库：git remote add origin &lt;仓库URL&gt;<br>7 提交更改：git commit -m “提交信息”<br>8 推送到远程仓库：git push -u origin main<br>9 从远程仓库拉取更新：git pull origin main<br>这是一个典型的Git工作流程，适用于大多数基本的版本控制需求。</p><h3 id="出现的错误"><a href="#出现的错误" class="headerlink" title="出现的错误"></a>出现的错误</h3><h4 id="refusing-to-merge-unrelated-histories"><a href="#refusing-to-merge-unrelated-histories" class="headerlink" title="refusing to merge unrelated histories"></a>refusing to merge unrelated histories</h4><p>这个错误 表明Git拒绝合并两个没有共同历史的仓库。这通常发生在当你的本地仓库和远程仓库是独立创建的，没有共享任何提交记录时。<br>为了解决这个问题，你可以在拉取命令中使用选项来强制合并两个不相关的历史。运行以下命令：pull–allow-unrelated-histories</p><p>git pull origin main –allow-unrelated-histories</p><p>完成后，如果出现任何合并冲突，请解决这些冲突。然后，你可以继续提交任何必要的更改，并再次尝试推送到远程仓库：</p><p>git push -u origin main</p><h4 id="文件的重命名"><a href="#文件的重命名" class="headerlink" title="文件的重命名"></a>文件的重命名</h4><p>我在本地重命名一个文件，提交后发现远程仓库里文件并没有变化。<br>我在github仓库中手动更改了该文件的名称，这就引发了第二个错误。</p><h4 id="推送"><a href="#推送" class="headerlink" title="推送"></a>推送</h4><p>在第一个错误的基础上，我进行了推送，然后引发了第二个错误</p><p>git push -u origin main</p><p>To <a href="https://github.com/A/B">https://github.com/A/B</a><br> ! [rejected]        main -&gt; main (fetch first)<br>error: failed to push some refs to ‘<a href="https://github.com/WaterMonn/artweb">https://github.com/WaterMonn/artweb</a>‘<br>hint: Updates were rejected because the remote contains work that you do<br>hint: not have locally. This is usually caused by another repository pushing<br>hint: to the same ref. You may want to first integrate the remote changes<br>hint: (e.g., ‘git pull …’) before pushing again.<br>hint: See the ‘Note about fast-forwards’ in ‘git push –help’ for details.</p><p>这个错误信息表明你尝试将本地的更改推送到GitHub仓库时遇到了问题，原因是远程仓库包含了一些你本地仓库中没有的提交。这通常发生在远程仓库被其他提交更新（比如你可能在GitHub上直接编辑了文件）而本地仓库还没有这些更新时。</p><p>此时，我应该先拉取远程仓库，然后进行更改提交。<br>这就引发了第三个错误</p><h4 id="拉取"><a href="#拉取" class="headerlink" title="拉取"></a>拉取</h4><p>hint: Updates were rejected because the tip of your current branch is behind<br>错误信息表明在尝试合并远程变更时，你的本地工作目录中存在未跟踪的文件，这些文件会被远程仓库中的文件覆盖。在合并之前，你需要处理这些文件。<br>远程仓库想要替换本地的，但该文件在本地是未跟踪的，因此Git无法决定应该覆盖文件还是保留文件。<br>当提示你的本地分支落后于远程分支时，意味着自从你上次从远程仓库拉取或克隆以来，远程仓库中已经有了新的提交。这通常是因为：</p><p>1 其他人向该仓库提交了新的更改。<br>2 或者你自己在GitHub网页上直接对文件进行了修改和提交。</p><p>放弃本地更改：<br>git reset –hard<br>git pull origin main<br>合并本地更改:<br>git add .<br>git commit -m “Resolve untracked files issue”<br>git pull origin main</p><h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><p>GitHub仓库的主页面通常会展示仓库的创建时间，而最近一次提交的时间则可以在“Commits”部分找到。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Github </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>恭喜Faker</title>
       <link href="/2023/11/19/faker/"/>
       <url>/2023/11/19/faker/</url>
