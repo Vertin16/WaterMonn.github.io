@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>npm install 安装失败</title>
+      <link href="/2024/07/02/error/error/"/>
+      <url>/2024/07/02/error/error/</url>
+      
+        <content type="html"><![CDATA[<h4 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h4><p>在学习Vue时，使用npm install 安装命令出错，卡住了，最后报错信息如下。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm install json-server --registry=https://registry.npm.taobao.org</span><br><span class="line">npm ERR! code CERT_HAS_EXPIRED</span><br><span class="line">npm ERR! errno CERT_HAS_EXPIRED</span><br><span class="line">npm ERR! request to https://registry.npm.taobao.org/json-server failed, reason: certificate has expired</span><br></pre></td></tr></table></figure><h4 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h4><p>后来发现自己笔记本上的时间不正确，校准北京时间后正确安装。<br>当你的计算机时间不正确时，可能会导致证书验证出现问题。这是因为许多证书都包含了有效期限，计算机上的时间与证书中的有效期不匹配时，会导致证书被视为过期或无效。+</p><h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>本次安装为局部安装，需要使用npx命令。<br>npx json-server –watch data&#x2F;db.json</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Error </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> vue </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>动态规划</title>
       <link href="/2024/05/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/"/>
       <url>/2024/05/14/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</url>
